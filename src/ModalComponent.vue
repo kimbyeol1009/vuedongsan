@@ -6,7 +6,7 @@
                 <h4>{{ 원룸들[누른거].title }}</h4>
                 <p>{{ 원룸들[누른거].content }}</p>
                 <!-- <input @input="month = $event.target.value"> -->
-                 <input v-model.number="month">
+                <input :value = "month" type="text" @input="filter">
                 <p>{{ month }}개월 선택함 : {{ 원룸들[누른거].price * month }}</p>
                 <button @click="$emit('closeModal')">닫기</button>
             </div>
@@ -22,10 +22,22 @@ export default {
             month : 1,
         }
     },
+
     props : {
         원룸들 : Object,
         누른거 : Number,
         모달창열렸니 : Boolean,
+    },
+    methods : {
+        filter(event) {
+      // 숫자만 남기고 업데이트
+      if(event.target.value.match(/[^0-9]/g)){
+                alert('문자는안됨ㅋㅋ');
+                event.target.value=1;
+            }
+      this.month = event.target.value.replace(/[^0-9]/g, "");
+      event.target.value = this.month;
+    },
     }
 }
 </script>
